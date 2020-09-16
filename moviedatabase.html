@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Project Movie Database</title>
+    <style>
+       h1{
+        text-align: center;
+        font-size: 35px;
+       }
+        label{
+            display: block; 
+            text-align: center;
+            font: 25px 'Fira Sans', sans-serif;
+        }
+        .container1{
+            text-align: center;
+        }
+        button{
+            margin: 5px;
+            height: auto;
+            width: 75px;
+        }
+        input{
+            margin: 5px;
+            width: 200px;
+            height: auto;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Welcome to the Movie Database!</h1>
+    <div class="container1">
+    <label for="site-search">Search Movies by Title</label>
+    <input type="search" id="title" placeholder="Search by Title">
+
+    <button id="button">Search</button>
+    </div>  
+    <main id="movieinfocontainer">
+        <!---<div>
+            <div ><img id="movieposter" src="" alt=""></div>
+            <div id="movietitle"></div>
+            <div id="year"></div>
+        </div>--->
+    </main>
+    <script>    
+
+    document.getElementById("button").addEventListener('click', function(){
+        var title = document.getElementById("title").value;
+        if(title.length >= 3){
+            fetch(`https://www.omdbapi.com/?apikey=3d441920&type=movie&s=${title}`)
+                .then(function (response) {
+                        return response.json();
+                    })
+                .then(function (response) { 
+                        console.log(response) 
+                        if(response.Response == "False"){
+                            alert("No Movies Found!")
+                        }
+                        else{
+                            for (let i = 0; i < response.Search.length; i++) {
+                                console.log(response.Search[i].Title);
+                                var poster = response.Search[i].Poster;
+                                var movieTitle = response.Search[i].Title;
+                                var year = response.Search[i].Year;
+
+                                var image = document.createElement('img');
+                                image.src = `${poster}`;
+                                image.alt = `${title} Movie Poster`;
+
+                                var titleDiv = document.createElement('div');
+                                titleDiv = `Title: ${movieTitle}`;
+
+                                var yearDiv = document.createElement('div');
+                                yearDiv = `Year: ${year}`;
+
+                                document.getElementById("movieinfocontainer").append(image);
+                                document.getElementById("movieinfocontainer").append(titleDiv);
+                                document.getElementById("movieinfocontainer").append(yearDiv);
+
+                                //document.getElementById("movieposter").src=`${poster}`;
+                                //document.getElementById("movieposter").alt=`${title} Movie Poster`;
+                                //document.getElementById("movietitle").innerText = `Title: ${movieTitle}`;
+                                //document.getElementById("year").innerText = `Year: ${year}`;
+                            }
+                        }
+                });
+        }
+        else{
+            alert("Whoa there Cowboy!");
+        }
+    })
+    
+    </script>
+</body>
+</html>
