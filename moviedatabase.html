@@ -10,12 +10,9 @@
         font-size: 35px;
        }
         label{
-            display: block; 
+            display: block;
             text-align: center;
             font: 25px 'Fira Sans', sans-serif;
-        }
-        .container1{
-            text-align: center;
         }
         button{
             margin: 5px;
@@ -27,7 +24,9 @@
             width: 200px;
             height: auto;
         }
-
+        main, div{
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -38,18 +37,16 @@
 
     <button id="button">Search</button>
     </div>  
-    <main id="movieinfocontainer">
-        <!---<div>
-            <div ><img id="movieposter" src="" alt=""></div>
-            <div id="movietitle"></div>
-            <div id="year"></div>
-        </div>--->
-    </main>
+    <main id="movieinfocontainer"></main>
+    <div>
+        <p id="pageResults"></p>
+    </div>
     <script>    
 
     document.getElementById("button").addEventListener('click', function(){
         var title = document.getElementById("title").value;
         if(title.length >= 3){
+            document.getElementById("movieinfocontainer").innerHTML = "";
             fetch(`https://www.omdbapi.com/?apikey=3d441920&type=movie&s=${title}`)
                 .then(function (response) {
                         return response.json();
@@ -70,21 +67,25 @@
                                 image.src = `${poster}`;
                                 image.alt = `${title} Movie Poster`;
 
+                                var imageDiv = document.createElement('div');
+                                imageDiv.append(image);
+
                                 var titleDiv = document.createElement('div');
                                 titleDiv = `Title: ${movieTitle}`;
 
                                 var yearDiv = document.createElement('div');
                                 yearDiv = `Year: ${year}`;
 
-                                document.getElementById("movieinfocontainer").append(image);
+                                
+
+                                document.getElementById("movieinfocontainer").append(imageDiv);
                                 document.getElementById("movieinfocontainer").append(titleDiv);
                                 document.getElementById("movieinfocontainer").append(yearDiv);
 
-                                //document.getElementById("movieposter").src=`${poster}`;
-                                //document.getElementById("movieposter").alt=`${title} Movie Poster`;
-                                //document.getElementById("movietitle").innerText = `Title: ${movieTitle}`;
-                                //document.getElementById("year").innerText = `Year: ${year}`;
+                               
                             }
+                            document.getElementById("pageResults").innerText = `${response.totalResults} total results`;
+
                         }
                 });
         }
