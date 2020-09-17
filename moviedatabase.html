@@ -4,49 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group Project Movie Database</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Taviraj:wght@600&display=swap" rel="stylesheet">
     <style>
        h1{
-        text-align: center;
         font-size: 35px;
-       }
-        label{
-            display: block;
-            text-align: center;
-            font: 25px 'Fira Sans', sans-serif;
         }
         button{
-            margin: 5px;
+            background-color: #9d0208;
+            color: #370617 ;
+            margin: 10px;
             height: auto;
             width: 75px;
         }
         input{
+            background-color: #9d0208;
+            color: #370617 ;
             margin: 5px;
             width: 200px;
             height: auto;
         }
+        main, div, h1, .container1{
+            font-family: 'Taviraj', serif;
+            margin: 2px;
+        }
+        h1, .container1{
+            color: #FAA307;
+        }
         main, div{
-            text-align: center;
+            color: #E85D04;
+        }
+        label{
+            font-size: 30px;
+        }
+        main, div{
+            font-size: 20px;
+        }
+        img:hover{
+            -ms-transform: scale(1.25,1.5);
+            -webkit-transform: scale(1.25,1.5);
+            transform: scale(1.25,1.5);
+        }
+        .bg{;
+            border: 3px solid #9D0208 !important;
+        }
+        .bg-page{
+            background-color: #370617 !important;
         }
     </style>
 </head>
-<body>
-<h1>Welcome to the Movie Database!</h1>
-    <div class="container1">
-    <label for="site-search">Search Movies by Title</label>
-    <input type="search" id="title" placeholder="Search by Title">
+<body class="bg-page">
+<h1 class="text-center">Welcome to the Movie Database!</h1>
+    <section class="container1 text-center"></div>
+    <label class="text-center d-block" for="site-search">Search Movies by Title</label>
+    <input class="text-center" type="search" id="title" placeholder="Search by Title">
 
-    <button id="button">Search</button>
-    </div>  
-    <main id="movieinfocontainer"></main>
-    <div>
+    <button class="text-center" id="button">Search</button>
+    </section>
+    <main class="text-center" id="movieinfocontainer"></main>
+    <div class="text-center">
         <p id="pageResults"></p>
     </div>
-    <script>    
-
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script>  
     document.getElementById("button").addEventListener('click', function(){
         var title = document.getElementById("title").value;
         if(title.length >= 3){
             document.getElementById("movieinfocontainer").innerHTML = "";
+            document.getElementById("pagerResults").innerText = "";
             fetch(`https://www.omdbapi.com/?apikey=3d441920&type=movie&s=${title}`)
                 .then(function (response) {
                         return response.json();
@@ -71,17 +99,20 @@
                                 imageDiv.append(image);
 
                                 var titleDiv = document.createElement('div');
-                                titleDiv = `Title: ${movieTitle}`;
+                                titleDiv.innerText = `Title: ${movieTitle}`;
 
                                 var yearDiv = document.createElement('div');
-                                yearDiv = `Year: ${year}`;
+                                yearDiv.innerText = `Year: ${year}`;
 
-                                
+                                var movieDiv = document.createElement('div');
+                                movieDiv.append(imageDiv);
+                                movieDiv.append(titleDiv);
+                                movieDiv.append(yearDiv);
 
-                                document.getElementById("movieinfocontainer").append(imageDiv);
-                                document.getElementById("movieinfocontainer").append(titleDiv);
-                                document.getElementById("movieinfocontainer").append(yearDiv);
+                                image.classList.add("border")
+                                image.classList.add("bg")
 
+                                document.getElementById("movieinfocontainer").append(movieDiv);
                                
                             }
                             document.getElementById("pageResults").innerText = `${response.totalResults} total results`;
@@ -93,7 +124,6 @@
             alert("Whoa there Cowboy!");
         }
     })
-    
     </script>
 </body>
 </html>
