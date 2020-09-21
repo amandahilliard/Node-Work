@@ -38,6 +38,7 @@ let playerHand = cardArray();
 //Comp Hand Value - taken from card objects
 //Comp Hand - Collection of cards
 let compHand = cardArray();
+
 var players = new Array();
 function createPlayers(num)
 {
@@ -49,73 +50,38 @@ function createPlayers(num)
         players.push(player);
     }
 }
-function createPlayersUI()
-{
-    document.getElementById('players').innerHTML = '';
-    for(var i = 0; i < players.length; i++)
-    {
-        var div_player = document.createElement('div');
-        var div_playerid = document.createElement('div');
-        var div_hand = document.createElement('div');
-        var div_points = document.createElement('div');
 
-        div_points.className = 'points';
-        div_points.id = 'points_' + i;
-        div_player.id = 'player_' + i;
-        div_player.className = 'player';
-        div_hand.id = 'hand_' + i;
 
-        div_playerid.innerHTML = players[i].ID;
-        div_player.appendChild(div_playerid);
-        div_player.appendChild(div_hand);
-        div_player.appendChild(div_points);
-        document.getElementById('players').appendChild(div_player);
-    }
-}
-//Actions - Hit or Stay (event listeners)
-function startblackjack()
-{
-    document.getElementById('btnStart').value = 'Restart';
-    document.getElementById("status").style.display="none";
-    // deal 2 cards to every player object
-    currentPlayer = 0;
-    createDeck();
-    shuffle();
-    createPlayers(2);
-    createPlayersUI();
-    dealHands();
-    document.getElementById('player_' + currentPlayer).classList.add('active');
-}
 
-function dealHands()
-{
-    // alternate handing cards to each player
-    // 2 cards each
-    for(var i = 0; i < 2; i++)
-    {
-        for (var x = 0; x < players.length; x++)
-        {
-            var card = deck.pop();
-            players[x].Hand.push(card);
-            renderCard(card, x);
-            updatePoints();
-        }
-    }
+//function to check hands for points - checking each individually
+//loop through the array (playerHand / compHand) add points and check for loss / win
 
-    updateDeck();
-}
+//function to draw a card and give it to a specific hand
+    //Pull 'top' card from the deck 
+    //Return it to be added to the hand that needs it
+    //Check the size of the deck
+    //If there's still a card left do nothing
+    //If there are no more cards, take the dicard pile, shuffle it and re-add it to the main deck
+
+//Event listeners for 'hit' and 'stay'
+//hit - give another card to the user and check totals. will then give a card to the comp if they want one
+//stay - end the players turn and then keep giving a card to the computer as long as they need one
+
+//function to check if the comp wants a card when its fine with its card, stop checking
+
+//when stay has been clicked and the computer doesnt need cards, end the game
+
+//End game function - compares points, displays messaging, moves cards to the discard pile
+
+
 var currentPlayer = 0;
 function hitMe()
 {
     // pop a card from the deck to the current player
     // check if current player new points are over 21
     var card = deck.pop();
-    players[currentPlayer].Hand.push(card);
-    renderCard(card, currentPlayer);
-    updatePoints();
-    check();
+    
 }
-
 function check()
 {
     if (players[currentPlayer].Points > 21)
