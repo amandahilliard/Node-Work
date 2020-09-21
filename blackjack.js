@@ -1,5 +1,10 @@
 
 //Stats (W/L/T)
+function setOutcome(outcome){   
+        stats[outcome]++;           
+        document.getElementById("result").innerText = `It was a ${outcome}`; 
+        document.getElementById(outcome).innerText = stats[outcome]; 
+    }
 
 
 let suits = ["heart", "diamond", "club", "spades"];
@@ -23,7 +28,6 @@ function shuffleDeck(){
     for (var i = 0; i < 1000; i++){
         var computerHand = Math.floor((Math.random() * deck.length));
         var playerHand = Math.floor((Math.random() * deck.length));
-
     }
 }
 //Player hand cards - taken from card object
